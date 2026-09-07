@@ -1,0 +1,578 @@
+<title>StratFikra — Abdelhak Oussarra</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@500;700&display=swap');
+
+  :root{
+    /* brand constants — fixed across themes, drawn from the printed identity kit */
+    --navy:#1E4B8C;
+    --navy-deep:#122f5c;
+    --navy-ink:#0d1f3d;
+    --terracotta:#BC5A2E;
+    --terracotta-soft:#d98a5f;
+    --gold:#D19A2B;
+    --ivoire:#F1E9D8;
+
+    /* surfaces that respond to viewer theme */
+    --bg:#FBF7EF;
+    --surface:#ffffff;
+    --surface-2:#F1E9D8;
+    --ink:#2B2B2B;
+    --ink-soft:#645d52;
+    --border:rgba(43,43,43,.14);
+    --shadow:0 1px 2px rgba(43,43,43,.06);
+  }
+
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#171310;
+      --surface:#211b16;
+      --surface-2:#241f27;
+      --ink:#F1E9D8;
+      --ink-soft:#c9bea9;
+      --border:rgba(241,233,216,.14);
+      --shadow:0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#171310;
+    --surface:#211b16;
+    --surface-2:#241f27;
+    --ink:#F1E9D8;
+    --ink-soft:#c9bea9;
+    --border:rgba(241,233,216,.14);
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Public Sans', -apple-system, 'Segoe UI', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--gold); color:var(--navy-ink);}
+
+  h1,h2,h3{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    line-height:1.12;
+    margin:0;
+    text-wrap:balance;
+    letter-spacing:-.01em;
+  }
+  p{margin:0;}
+  a{color:inherit;}
+  .ar{
+    font-family:'Noto Naskh Arabic', serif;
+    direction:rtl;
+    unicode-bidi:isolate;
+  }
+
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+  section{padding:96px 0;}
+  @media (max-width:720px){ section{padding:64px 0;} }
+
+  .eyebrow{
+    font-size:.78rem;
+    font-weight:700;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--terracotta);
+  }
+  :root[data-theme="dark"] .eyebrow, @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .eyebrow{ color:var(--terracotta-soft); } }
+
+  /* ---------- nav ---------- */
+  header{
+    position:sticky; top:0; z-index:40;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .navrow{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 0;
+  }
+  .brand{display:flex; align-items:center; gap:11px; text-decoration:none; color:var(--ink);}
+  .brand svg{width:30px; height:30px; color:var(--navy);}
+  .brand .name{font-family:'Fraunces',serif; font-weight:600; font-size:1.05rem; letter-spacing:.01em;}
+  .brand .name small{display:block; font-family:'Public Sans',sans-serif; font-weight:600; font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft);}
+  nav.links{display:flex; gap:28px; align-items:center;}
+  nav.links a{font-size:.88rem; font-weight:600; text-decoration:none; color:var(--ink-soft);}
+  nav.links a:hover{color:var(--terracotta);}
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Public Sans',sans-serif; font-weight:700; font-size:.86rem;
+    padding:11px 20px; border-radius:3px;
+    text-decoration:none; cursor:pointer; border:1px solid transparent;
+    transition:transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:hover{transform:translateY(-1px);}
+  .btn-primary{background:var(--terracotta); color:#fff;}
+  .btn-primary:hover{background:#a54d26;}
+  .btn-ghost{border-color:var(--border); color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--terracotta); color:var(--terracotta);}
+  .btn-on-navy{border-color:rgba(241,233,216,.35); color:var(--ivoire);}
+  .btn-on-navy:hover{border-color:var(--gold); color:var(--gold);}
+  @media (max-width:820px){ nav.links{display:none;} }
+
+  /* ---------- hero ---------- */
+  .hero{
+    background:linear-gradient(165deg, var(--navy-ink), var(--navy-deep) 55%, var(--navy));
+    color:var(--ivoire);
+    position:relative;
+    overflow:hidden;
+    padding:88px 0 76px;
+  }
+  .hero .wrap{position:relative; z-index:2;}
+  .hero-mark{
+    position:absolute; right:-90px; top:50%; transform:translateY(-50%);
+    width:560px; height:560px; color:var(--ivoire); opacity:.08;
+    z-index:1; pointer-events:none;
+  }
+  .hero-grid{display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:56px; align-items:end;}
+  @media (max-width:900px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero h1{font-size:clamp(2.3rem,4.6vw,3.6rem); color:#fff;}
+  .hero .ar{font-size:1.05rem; color:var(--gold); margin-top:10px; display:block;}
+  .hero .lede{font-size:1.1rem; color:#d9d2c2; max-width:52ch; margin-top:20px;}
+  .hero .cta-row{display:flex; gap:14px; margin-top:32px; flex-wrap:wrap;}
+  .stat-card{
+    background:rgba(241,233,216,.06);
+    border:1px solid rgba(241,233,216,.16);
+    border-radius:4px;
+    padding:22px 24px;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .stat{display:flex; flex-direction:column; gap:2px;}
+  .stat b{font-family:'Fraunces',serif; font-size:1.6rem; font-weight:600; color:var(--gold); font-variant-numeric:tabular-nums;}
+  .stat span{font-size:.8rem; color:#c9bea9;}
+
+  /* ---------- section headers ---------- */
+  .sec-head{max-width:640px; margin-bottom:48px;}
+  .sec-head h2{font-size:clamp(1.7rem,3vw,2.3rem); margin-top:8px;}
+  .sec-head .ar{font-size:.95rem; color:var(--ink-soft); margin-top:6px; display:block;}
+  .sec-head p{color:var(--ink-soft); margin-top:14px; font-size:1.02rem;}
+
+  /* ---------- expertise ---------- */
+  .pillars{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:6px; overflow:hidden;}
+  @media (max-width:820px){ .pillars{grid-template-columns:1fr;} }
+  .pillar{background:var(--surface); padding:32px 28px;}
+  .pillar .num{font-family:'Fraunces',serif; font-size:.85rem; color:var(--terracotta); font-weight:700;}
+  .pillar h3{font-size:1.2rem; margin-top:10px;}
+  .pillar p{color:var(--ink-soft); margin-top:12px; font-size:.95rem;}
+  .pillar ul{margin:14px 0 0; padding-left:18px; color:var(--ink-soft); font-size:.9rem; display:flex; flex-direction:column; gap:6px;}
+
+  /* ---------- approach ---------- */
+  .steps{display:flex; flex-direction:column;}
+  .step{
+    display:grid; grid-template-columns:64px 1fr; gap:24px;
+    padding:26px 0; border-top:1px solid var(--border);
+  }
+  .step:last-child{border-bottom:1px solid var(--border);}
+  .step .idx{font-family:'Fraunces',serif; font-size:1.6rem; color:var(--gold); font-weight:600;}
+  .step h3{font-size:1.12rem;}
+  .step p{color:var(--ink-soft); margin-top:8px; font-size:.96rem; max-width:62ch;}
+
+  /* ---------- references ---------- */
+  .refs{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+  @media (max-width:900px){ .refs{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:620px){ .refs{grid-template-columns:1fr;} }
+  .ref-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:6px;
+    padding:22px; box-shadow:var(--shadow);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .ref-tag{font-size:.7rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--navy);}
+  :root[data-theme="dark"] .ref-tag{color:#9db8e6;}
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .ref-tag{color:#9db8e6;} }
+  .ref-card h3{font-size:1.02rem; font-family:'Public Sans',sans-serif; font-weight:700;}
+  .ref-card p{font-size:.88rem; color:var(--ink-soft);}
+  .ref-meta{display:flex; gap:10px; flex-wrap:wrap; font-size:.78rem; color:var(--ink-soft); margin-top:auto; padding-top:8px; border-top:1px dashed var(--border);}
+  .confid-note{margin-top:26px; font-size:.86rem; color:var(--ink-soft); border-left:2px solid var(--terracotta); padding-left:14px;}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid; grid-template-columns:1.2fr 1fr; gap:56px;}
+  @media (max-width:860px){ .about-grid{grid-template-columns:1fr;} }
+  .about-grid p{color:var(--ink-soft); font-size:1.02rem;}
+  .about-grid p + p{margin-top:16px;}
+  .fact-list{display:flex; flex-direction:column; gap:0;}
+  .fact{padding:16px 0; border-top:1px solid var(--border); display:grid; grid-template-columns:120px 1fr; gap:14px;}
+  .fact:last-child{border-bottom:1px solid var(--border);}
+  .fact dt{font-size:.76rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--terracotta);}
+  .fact dd{margin:0; font-size:.92rem; color:var(--ink-soft);}
+
+  /* ---------- contact ---------- */
+  .contact-sec{background:var(--surface-2);}
+  .contact-grid{display:grid; grid-template-columns:.9fr 1.1fr; gap:56px; align-items:start;}
+  @media (max-width:900px){ .contact-grid{grid-template-columns:1fr;} }
+  .contact-side p{color:var(--ink-soft); margin-top:14px; font-size:.98rem;}
+  .direct-mail{
+    margin-top:26px; display:inline-flex; align-items:baseline; gap:8px;
+    font-family:'Fraunces',serif; font-size:1.15rem; font-weight:600; color:var(--navy);
+    text-decoration:none; border-bottom:1px solid var(--terracotta); padding-bottom:2px;
+  }
+  :root[data-theme="dark"] .direct-mail{color:var(--gold);}
+  @media (prefers-color-scheme:dark){ :root:not([data-theme="light"]) .direct-mail{color:var(--gold);} }
+
+  form{background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:32px; box-shadow:var(--shadow);}
+  .field{display:flex; flex-direction:column; gap:6px; margin-bottom:18px;}
+  .field label{font-size:.8rem; font-weight:700; color:var(--ink);}
+  .field .req{color:var(--terracotta);}
+  .field input, .field select, .field textarea{
+    font-family:'Public Sans',sans-serif; font-size:.95rem; color:var(--ink);
+    background:var(--bg); border:1px solid var(--border); border-radius:4px;
+    padding:11px 13px; width:100%;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:2px solid var(--navy); outline-offset:1px; border-color:var(--navy);
+  }
+  .field textarea{resize:vertical; min-height:110px; font-family:inherit;}
+  .row2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:520px){ .row2{grid-template-columns:1fr;} }
+  .form-foot{display:flex; align-items:center; gap:16px; margin-top:6px; flex-wrap:wrap;}
+  .form-note{font-size:.8rem; color:var(--ink-soft);}
+  #form-status{font-size:.85rem; font-weight:600;}
+  #form-status[data-state="ok"]{color:#2E6E52;}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--navy-ink); color:#c9bea9; padding:56px 0 32px;}
+  .foot-top{display:flex; justify-content:space-between; align-items:flex-start; gap:32px; flex-wrap:wrap; padding-bottom:32px; border-bottom:1px solid rgba(241,233,216,.14);}
+  .foot-brand{display:flex; gap:12px; align-items:center;}
+  .foot-brand svg{width:34px; height:34px; color:var(--ivoire);}
+  .foot-brand .name{font-family:'Fraunces',serif; color:#fff; font-weight:600; font-size:1.1rem;}
+  .foot-links{display:flex; gap:36px; flex-wrap:wrap;}
+  .foot-links div{display:flex; flex-direction:column; gap:8px;}
+  .foot-links a{font-size:.86rem; text-decoration:none; color:#c9bea9;}
+  .foot-links a:hover{color:var(--gold);}
+  .foot-bottom{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding-top:22px; font-size:.78rem; color:#8f8672;}
+</style>
+
+<!-- reusable brand mark -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <g id="mark" fill="none" stroke="currentColor" stroke-linejoin="round">
+      <rect x="58" y="58" width="84" height="84" stroke-width="5"/>
+      <rect x="58" y="58" width="84" height="84" stroke-width="5" transform="rotate(45 100 100)"/>
+      <g stroke-width="1.6" opacity=".8">
+        <path d="M127.7,111.5 L111.5,127.7 L88.5,127.7 L72.3,111.5 L72.3,88.5 L88.5,72.3 L111.5,72.3 L127.7,88.5 Z"/>
+        <path d="M127.7,111.5 L72.3,111.5 M111.5,127.7 L111.5,72.3 M88.5,127.7 L88.5,72.3 M72.3,88.5 L127.7,88.5"/>
+      </g>
+      <g fill="currentColor" stroke="none">
+        <circle cx="127.7" cy="111.5" r="3.6"/>
+        <circle cx="111.5" cy="127.7" r="3.6"/>
+        <circle cx="88.5" cy="127.7" r="3.6"/>
+        <circle cx="72.3" cy="111.5" r="3.6"/>
+        <circle cx="72.3" cy="88.5" r="3.6"/>
+        <circle cx="88.5" cy="72.3" r="3.6"/>
+        <circle cx="111.5" cy="72.3" r="3.6"/>
+        <circle cx="127.7" cy="88.5" r="3.6"/>
+        <circle cx="100" cy="100" r="6.5"/>
+      </g>
+    </g>
+  </defs>
+</svg>
+
+<header>
+  <div class="wrap navrow">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 200 200"><use href="#mark"/></svg>
+      <span class="name">StratFikra<small>Abdelhak Oussarra</small></span>
+    </a>
+    <nav class="links">
+      <a href="#expertise">Expertise</a>
+      <a href="#approche">Approche</a>
+      <a href="#references">Références</a>
+      <a href="#a-propos">À propos</a>
+      <a href="#contact" class="btn btn-primary">Demander une prestation</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <svg class="hero-mark" viewBox="0 0 200 200"><use href="#mark"/></svg>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow" style="color:var(--gold)">StratFikra — Conseil &amp; ingénierie de formation</p>
+        <h1>Sûreté, ressources humaines,<br>IA appliquée.</h1>
+        <span class="ar">الأمن، الموارد البشرية، والذكاء الاصطناعي التطبيقي</span>
+        <p class="lede">40 ans d'expérience en management sécuritaire, systèmes d'information et gestion des ressources humaines. Consultant indépendant, j'interviens seul, du diagnostic à la restitution, auprès d'administrations, d'institutions et d'entreprises marocaines.</p>
+        <div class="cta-row">
+          <a href="#contact" class="btn btn-primary">Demander une prestation</a>
+          <a href="#references" class="btn btn-on-navy">Voir les références</a>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat"><b>40 ans</b><span>d'expérience en sécurité, SI et RH</span></div>
+        <div class="stat"><b>6 missions</b><span>livrées entre 2025 et 2026</span></div>
+        <div class="stat"><b>Solo</b><span>un seul interlocuteur, sans sous-traitance</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="expertise">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Ce que je fais</p>
+        <h2>Trois domaines, un seul interlocuteur</h2>
+        <span class="ar">الخبرة</span>
+        <p>Chaque mission combine, selon le besoin, tout ou partie de ces trois expertises — sans passer la main à un autre prestataire.</p>
+      </div>
+      <div class="pillars">
+        <div class="pillar">
+          <p class="num">01</p>
+          <h3>Sûreté &amp; sécurité</h3>
+          <p>Audit de sûreté sur site, formation des agents de sécurité et d'accueil, conformité au cadre réglementaire marocain.</p>
+          <ul>
+            <li>Méthodologie d'audit à 17 domaines</li>
+            <li>Loi 05-20 (cybersécurité), loi 09-08 / CNDP, référentiel DGSSI</li>
+            <li>Formation présentielle d'agents et de cadres publics</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <p class="num">02</p>
+          <h3>RH &amp; organisation</h3>
+          <p>Diagnostic organisationnel participatif et construction d'une politique RH réellement applicable.</p>
+          <ul>
+            <li>Diagnostic participatif de terrain</li>
+            <li>Politique RH et plan de formation annuel</li>
+            <li>Restitution en comité de direction</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <p class="num">03</p>
+          <h3>Compétences numériques &amp; IA</h3>
+          <p>Formation E-Skills et IA générative appliquée aux processus métier réels — jamais sur des cas abstraits.</p>
+          <ul>
+            <li>Hygiène numérique, veille, communication publique</li>
+            <li>Ingénierie de prompt sur documents authentiques</li>
+            <li>Bureautique augmentée : de l'outil isolé au tableau de bord</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="approche" style="background:var(--surface-2)">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Méthode</p>
+        <h2>Quatre étapes, un fil rouge unique</h2>
+        <span class="ar">المنهجية</span>
+        <p>Chaque programme est construit autour d'un cas réel du client — dossiers, indicateurs, processus authentiques. Aucun exercice sur données abstraites.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <p class="idx">01</p>
+          <div><h3>Diagnostic</h3><p>Cadrage du besoin, audit ou entretiens, mesure du coût réel de la situation actuelle — temps perdu, risque, non-conformité.</p></div>
+        </div>
+        <div class="step">
+          <p class="idx">02</p>
+          <div><h3>Conception</h3><p>Programme sur mesure bâti sur un fil rouge unique et les documents propres au client ; contenus bilingues français-arabe quand le public l'exige.</p></div>
+        </div>
+        <div class="step">
+          <p class="idx">03</p>
+          <div><h3>Animation</h3><p>Formation ou accompagnement en présentiel, gabarits et outils prêts à l'usage, posture de super-utilisateur plutôt que de simple spectateur.</p></div>
+        </div>
+        <div class="step">
+          <p class="idx">04</p>
+          <div><h3>Transfert &amp; évaluation</h3><p>Simulation finale sous contrainte réelle, tableau de bord et guide utilisateur remis, dispositif de suivi dans la durée.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="references">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow">Terrain</p>
+        <h2>Six missions, 2025–2026</h2>
+        <span class="ar">المراجع</span>
+        <p>Administrations publiques, institutions constitutionnelles, chambres professionnelles, ONG et industrie, au Maroc.</p>
+      </div>
+      <div class="refs">
+        <div class="ref-card">
+          <p class="ref-tag">Programme national</p>
+          <h3>Formation « Smart M&amp;E » — IA au suivi-évaluation</h3>
+          <p>Coordination provinciale d'un programme national de développement humain : extraction, structuration et reporting assistés par IA générative, sur des dossiers de projets réels.</p>
+          <div class="ref-meta"><span>3 jours · 12 modules</span><span>Bilingue FR/AR</span><span>2026</span></div>
+        </div>
+        <div class="ref-card">
+          <p class="ref-tag">Administration territoriale</p>
+          <h3>Formation E-Skills</h3>
+          <p>Hygiène numérique, IA générative, veille et communication publique pour des agents d'une préfecture d'arrondissement.</p>
+          <div class="ref-meta"><span>3 jours</span><span>2025</span></div>
+        </div>
+        <div class="ref-card">
+          <p class="ref-tag">Chambre professionnelle</p>
+          <h3>IA générative appliquée au secteur maritime</h3>
+          <p>Formation à l'IA et aux outils conversationnels appliqués aux métiers d'une chambre professionnelle, avec parcours fonctionnel de suivi.</p>
+          <div class="ref-meta"><span>3 jours + parcours</span><span>2025</span></div>
+        </div>
+        <div class="ref-card">
+          <p class="ref-tag">Institution constitutionnelle</p>
+          <h3>Sûreté et sécurité des agents d'accueil</h3>
+          <p>Formation des agents de sécurité et d'accueil d'une institution constitutionnelle nationale.</p>
+          <div class="ref-meta"><span>2 demi-journées</span><span>2025</span></div>
+        </div>
+        <div class="ref-card">
+          <p class="ref-tag">Organisation non gouvernementale</p>
+          <h3>Politique RH et plan de formation annuel</h3>
+          <p>Mission de conseil : diagnostic organisationnel participatif débouchant sur une politique RH et un plan de formation annuel.</p>
+          <div class="ref-meta"><span>Diagnostic participatif</span><span>2026</span></div>
+        </div>
+        <div class="ref-card">
+          <p class="ref-tag">Industrie agroalimentaire</p>
+          <h3>Audit de sûreté sur sites de production</h3>
+          <p>Audit de sûreté d'un groupe industriel selon une méthodologie couvrant 17 domaines de vulnérabilité.</p>
+          <div class="ref-meta"><span>17 domaines</span><span>2025</span></div>
+        </div>
+      </div>
+      <p class="confid-note">Références présentées sous forme anonymisée : secteur, nature et durée de mission sont indiqués à titre de preuve ; les organisations ne sont pas nommées sans leur autorisation formelle de citation.</p>
+    </div>
+  </section>
+
+  <section id="a-propos" style="background:var(--surface-2)">
+    <div class="wrap about-grid">
+      <div>
+        <p class="eyebrow">Qui je suis</p>
+        <h2 style="margin-top:8px; font-size:clamp(1.7rem,3vw,2.3rem);">Abdelhak Oussarra</h2>
+        <span class="ar" style="display:block; margin-top:6px;">نبذة عني</span>
+        <p style="margin-top:20px;">Plus de 40 ans d'expérience dans le management sécuritaire, les systèmes d'information et la gestion des ressources humaines. Aujourd'hui consultant indépendant : je conduis chaque mission moi-même, du cadrage initial à la restitution finale, sans intermédiaire ni sous-traitance.</p>
+        <p>J'interviens auprès d'organisations publiques et privées pour renforcer leur sécurité, structurer leurs processus RH et développer les compétences numériques de leurs équipes — avec un objectif constant : des livrables que les équipes utilisent encore six mois après la fin de la mission.</p>
+      </div>
+      <dl class="fact-list">
+        <div class="fact"><dt>Je sers</dt><dd>Fonctionnaires et administrations publiques, collaborateurs d'entreprises privées, institutions et ONG</dd></div>
+        <div class="fact"><dt>Équipe</dt><dd>Solo — un seul interlocuteur sur toute la mission</dd></div>
+        <div class="fact"><dt>Outils</dt><dd>Google Workspace, Excel, Word, PowerPoint, Canva, Access, IA générative et automatisation de processus</dd></div>
+        <div class="fact"><dt>Langues</dt><dd>Français, arabe — contenus bilingues sur demande</dd></div>
+        <div class="fact"><dt>Cadre</dt><dd>Conformité au droit marocain : Code du travail, loi 09-08 / CNDP, loi 05-20 / DGSSI</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="contact" class="contact-sec">
+    <div class="wrap contact-grid">
+      <div class="contact-side">
+        <p class="eyebrow">Prochaine étape</p>
+        <h2 style="margin-top:8px; font-size:clamp(1.7rem,3vw,2.2rem);">Demander une prestation ou une information</h2>
+        <span class="ar" style="display:block; margin-top:6px;">تواصل معنا</span>
+        <p>Décrivez votre besoin en quelques lignes — formation, audit, diagnostic RH ou automatisation. Le formulaire ouvre un email pré-rempli ; vous gardez la main avant l'envoi.</p>
+        <a class="direct-mail" href="mailto:contact@stratfikra.ma">contact@stratfikra.ma</a>
+      </div>
+
+      <form id="lead-form">
+        <div class="row2">
+          <div class="field">
+            <label for="f-name">Nom complet <span class="req">*</span></label>
+            <input id="f-name" name="name" type="text" required autocomplete="name">
+          </div>
+          <div class="field">
+            <label for="f-org">Organisme</label>
+            <input id="f-org" name="org" type="text" autocomplete="organization">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="f-email">Email <span class="req">*</span></label>
+            <input id="f-email" name="email" type="email" required autocomplete="email">
+          </div>
+          <div class="field">
+            <label for="f-phone">Téléphone</label>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field">
+            <label for="f-secteur">Secteur</label>
+            <select id="f-secteur" name="secteur">
+              <option value="Administration publique">Administration publique</option>
+              <option value="Institution / organisme constitutionnel">Institution / organisme constitutionnel</option>
+              <option value="Entreprise privée">Entreprise privée</option>
+              <option value="ONG / chambre professionnelle">ONG / chambre professionnelle</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="f-besoin">Nature du besoin</label>
+            <select id="f-besoin" name="besoin">
+              <option value="Formation">Formation</option>
+              <option value="Audit de sûreté / diagnostic">Audit de sûreté / diagnostic</option>
+              <option value="Conseil RH">Conseil RH</option>
+              <option value="Automatisation / IA">Automatisation / IA</option>
+              <option value="Simple demande d'information">Simple demande d'information</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-message">Votre besoin <span class="req">*</span></label>
+          <textarea id="f-message" name="message" required placeholder="Contexte, échéance souhaitée, effectif concerné..."></textarea>
+        </div>
+        <div class="form-foot">
+          <button type="submit" class="btn btn-primary">Envoyer la demande</button>
+          <span class="form-note">Ouvre votre messagerie, adressée à contact@stratfikra.ma</span>
+          <span id="form-status"></span>
+        </div>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <svg viewBox="0 0 200 200"><use href="#mark"/></svg>
+        <div>
+          <p class="name">StratFikra</p>
+          <span class="ar" style="color:#c9bea9; font-size:.85rem;">تعزيز الأمن وكفاءات فرقكم</span>
+        </div>
+      </div>
+      <div class="foot-links">
+        <div>
+          <a href="#expertise">Expertise</a>
+          <a href="#approche">Approche</a>
+          <a href="#references">Références</a>
+        </div>
+        <div>
+          <a href="#a-propos">À propos</a>
+          <a href="#contact">Contact</a>
+          <a href="mailto:contact@stratfikra.ma">contact@stratfikra.ma</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 StratFikra — Abdelhak Oussarra. Conseil, ingénierie de formation et automatisation en IA, Maroc.</span>
+      <span>Références anonymisées jusqu'à autorisation de citation.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const form = document.getElementById('lead-form');
+  const status = document.getElementById('form-status');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!form.checkValidity()){ form.reportValidity(); return; }
+    const v = Object.fromEntries(new FormData(form).entries());
+    const subject = 'Demande de prestation — ' + v.name + (v.org ? ' (' + v.org + ')' : '');
+    const bodyLines = [
+      'Nom : ' + v.name,
+      'Organisme : ' + (v.org || '—'),
+      'Email : ' + v.email,
+      'Téléphone : ' + (v.phone || '—'),
+      'Secteur : ' + v.secteur,
+      'Nature du besoin : ' + v.besoin,
+      '',
+      'Message :',
+      v.message
+    ];
+    const mailto = 'mailto:contact@stratfikra.ma?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(bodyLines.join('\n'));
+    window.location.href = mailto;
+    status.textContent = 'Messagerie ouverte — vérifiez et envoyez l\'email.';
+    status.dataset.state = 'ok';
+  });
+</script>
